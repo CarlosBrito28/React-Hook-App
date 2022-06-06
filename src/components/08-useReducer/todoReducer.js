@@ -5,6 +5,8 @@ export const todoReducer = (state = [], action) => {
         case 'add':
 
             return [...state, action.payload];
+        case 'delete':
+            return state.filter(todo => todo.id !== action.payload); //payload seria el numero id 12321321321 ejemplo  
 
         default:
             return state;

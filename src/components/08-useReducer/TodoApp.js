@@ -22,10 +22,20 @@ export const TodoApp = () => {
         description: ''
     });
 
-    useEffect( () => {
-        localStorage.setItem('todos',JSON.stringify( todos))
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos))
 
-    },[ todos ]);
+    }, [todos]);
+
+    const handleDelete = (todoId) => {
+        // crear la action
+        const action = {
+            type: 'delete',
+            payload: todoId
+        }
+        //dispatch
+        dispatch(action);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,7 +70,10 @@ export const TodoApp = () => {
                                 className="list-group-item"
                             >
                                 <p className="text-center"> {i + 1}. {todo.desc}</p>
-                                <button className="btn btn-danger">Borrar</button>
+                                <button className="btn btn-danger"
+                                    onClick={() => handleDelete(todo.id)}
+                                >Borrar</button>
+
 
                             </li>
                         ))
