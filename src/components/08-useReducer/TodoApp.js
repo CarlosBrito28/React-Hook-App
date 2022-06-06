@@ -1,23 +1,33 @@
 import React, { useReducer } from 'react';
+import { useForm } from '../../hooks/useForm';
 import './styles.css';
 import { todoReducer } from './todoReducer';
 
 
-const initialState = [{
-    id: new Date().getTime(),
-    desc: 'aprender React',
-    done: false
-}];
+const init = () => {
+    return [{
+        id: new Date().getTime(),
+        desc: 'aprender React',
+        done: false
+    }];
+    
+}
+
 export const TodoApp = () => {
 
-    const [todos, dispatch] = useReducer(todoReducer, initialState);
-    console.log(todos);
+    const [todos, dispatch] = useReducer(todoReducer, [], init);
+   const [{ description }, handleImputChange, reset] = useForm({
+        description: ''
+    });
+  
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        if( description.trim().length <= 1){
+            return;
+        }
         const newTodo = {
             id: new Date().getTime(),
-            desc: 'Nueva tarea',
+            desc: description,
             done: false
         };
         const action = {
@@ -25,6 +35,7 @@ export const TodoApp = () => {
             payload: newTodo
         }
         dispatch ( action );
+        reset();
     }
     return (
         <div>
@@ -61,6 +72,8 @@ export const TodoApp = () => {
                         className="form-control"
                         placeholder="Aprender ..."
                         autoComplete="off"
+                        value={ description }
+                        onChange={ handleImputChange }
                     />
                     <button 
                         type="submit"
