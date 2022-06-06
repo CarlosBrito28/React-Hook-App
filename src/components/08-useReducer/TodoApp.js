@@ -1,28 +1,35 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useForm } from '../../hooks/useForm';
 import './styles.css';
 import { todoReducer } from './todoReducer';
 
 
 const init = () => {
-    return [{
-        id: new Date().getTime(),
-        desc: 'aprender React',
-        done: false
-    }];
-    
+
+    return JSON.parse(localStorage.getItem(' todos ')) || [];
+    // return [{
+    //     id: new Date().getTime(),
+    //     desc: 'aprender React',
+    //     done: false
+    // }];
+
 }
 
 export const TodoApp = () => {
 
     const [todos, dispatch] = useReducer(todoReducer, [], init);
-   const [{ description }, handleImputChange, reset] = useForm({
+    const [{ description }, handleImputChange, reset] = useForm({
         description: ''
     });
-  
+
+    useEffect( () => {
+        localStorage.setItem('todos',JSON.stringify( todos))
+
+    },[ todos ]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if( description.trim().length <= 1){
+        if (description.trim().length <= 1) {
             return;
         }
         const newTodo = {
@@ -31,10 +38,10 @@ export const TodoApp = () => {
             done: false
         };
         const action = {
-            type:'add',
+            type: 'add',
             payload: newTodo
         }
-        dispatch ( action );
+        dispatch(action);
         reset();
     }
     return (
@@ -65,17 +72,17 @@ export const TodoApp = () => {
             <div className="col-5">
                 <h4>Agregar TODO</h4>
                 <hr />
-                <form onSubmit={ handleSubmit }>
+                <form onSubmit={handleSubmit}>
                     <input
                         type="text"
                         name="description"
                         className="form-control"
                         placeholder="Aprender ..."
                         autoComplete="off"
-                        value={ description }
-                        onChange={ handleImputChange }
+                        value={description}
+                        onChange={handleImputChange}
                     />
-                    <button 
+                    <button
                         type="submit"
                         className="btn btn-outline-primary mt-1 btn-block">
                         Agregar
