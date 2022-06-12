@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
+import './index.css';
 
 //import { SimpleForm } from './components/02-useEffect/SimpleForm';
 //import { CounterApp } from './components/o1-useState/CounterApp';
@@ -22,7 +23,5 @@ root.render(
     <BrowserRouter>
         <MainApp />
     </BrowserRouter>
-
-
 );
 
